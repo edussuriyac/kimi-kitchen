@@ -7,14 +7,33 @@ app.use(morgan('combine'))
 app.use(bodyParser.json())
 app.use(cors())
 
-app.get('/status', (req, res) => {
-  res.send({
-    message: 'hello world'
-  })
+var mongoose = require('mongoose')
+mongoose.connect('mongodb://localhost:27017/register', { useMongoClient: true, promiseLibrary: require('bluebird') })
+var db = mongoose.connection
+db.on('error', console.error.bind(console, 'connection error'))
+db.once('open', function (callback) {
+  console.log('Connection Succeeded')
 })
-app.post('/register', (req, res) => {
-  res.send({
-    message: 'registered'
-  })
-})
+
+require('./routes')(app)
+
+// const Register = require('./models/register')
+// app.post('/register', (req, res) => {
+//   var email = req.body.email
+//   var password = req.body.password
+//   var newUser = new Register({
+//     email: email,
+//     password: password
+//   })
+//   newUser.save(function (error) {
+//     if (error) {
+//       console.log(error)
+//     }
+//     res.send({
+//       success: true,
+//       message: 'registered'
+//     })
+//   })
+// })
+
 app.listen(process.env.PORT || 8081)

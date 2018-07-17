@@ -4,10 +4,10 @@
       <v-flex x10 offset-xs1>
       <div class = "whit elevation-2">
         <v-toolbar flat dense class = "green accent-2">
-          <v-toolbar-title>Register</v-toolbar-title>
+          <v-toolbar-title>Login</v-toolbar-title>
         </v-toolbar>
           <div class ="pl-4 pr-4 pt-2 pb-2">
-            <h1>Register</h1>
+            <h1>Login</h1>
             <br>
             <v-text-field
               label="Email"
@@ -19,8 +19,8 @@
             ></v-text-field>
             <v-btn
               class="green accent-2"
-              @click = "addUser"
-              >Register
+              @click = "login"
+              >Login
             </v-btn>
             <div class = "error" v-html = "error"/>
           </div>
@@ -34,7 +34,7 @@
 import AuthenticationService from '@/services/AuthenticationService'
 import Header from '@/components/Header.vue'
 export default {
-  name: 'register',
+  name: 'login',
   components: {
     Header
   },
@@ -46,14 +46,14 @@ export default {
     }
   },
   methods: {
-    async addUser () {
+    async login () {
       try {
-        await AuthenticationService.addUser({
+        await AuthenticationService.login({
           email: this.email,
           password: this.password
         })
-        this.$router.push({ name: 'register' })
-        console.log('registerd', this.email, this.password)
+        this.$router.push({ name: 'login' })
+        console.log('logind', this.email, this.password)
       } catch (error) {
         this.error = error.response.data.error
       }
